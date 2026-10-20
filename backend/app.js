@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const app = express();
 
@@ -26,4 +27,12 @@ app.use((error, req, res, next) => {
     res.json({ message : error.message || 'An unknown error occured!'});
 });
 
-app.listen(5000);
+mongoose
+    .connect('mongodb+srv://solankirahul45_db_user:6ZD617eH7Xa26GTn@cluster0.68bjs90.mongodb.net/places?appName=Cluster0')
+    .then(() => {
+        app.listen(5000)
+    })
+    .catch(err => {
+        console.log(err);
+    });
+
