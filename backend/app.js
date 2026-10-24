@@ -28,7 +28,7 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-    .connect('mongodb+srv://solankirahul45_db_user:6ZD617eH7Xa26GTn@cluster0.68bjs90.mongodb.net/places?appName=Cluster0')
+    .connect('mongodb+srv://solankirahul45_db_user:6ZD617eH7Xa26GTn@cluster0.68bjs90.mongodb.net/mern?appName=Cluster0')
     .then(() => {
         app.listen(5000)
     })
