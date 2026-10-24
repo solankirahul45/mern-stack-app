@@ -7,18 +7,19 @@ const { validationResult } = require('express-validator');
 
 const HttpError = require('../models/http-error');
 const User = require('../models/user');
+const Place = require('../models/place');
 
-const DUMMY_USERS = [
-    {
-        id: 'u1',
-        name: 'Rahul Solanki',
-        email: 'test@test.com',
-        password: 'rahul'
+const getUsers = async (req, res, next) => {
+    let users;
+    try {
+        users = await User.find({}, '-password');
     }
-];
+    catch (err) {
+        const error = new HttpError('Fetching users failed, please try again later.', 500);
+        return next(error);
+    }
 
-const getUsers = (req, res, next) => {
-    res.json({ users: DUMMY_USERS });
+    res.json({ users: users.map(user => user.toObject({ getters: true }) )})
 };
 
 const signup = async (req, res, next) => {
@@ -27,7 +28,7 @@ const signup = async (req, res, next) => {
         return next(HttpError('Invalid inputs passed, please check your data', 422))
     }
 
-    const { name, email, password, places } = req.body;
+    const { name, email, password } = req.body;
 
     let existingUser;
     try {
@@ -49,7 +50,7 @@ const signup = async (req, res, next) => {
         password,
         image: 'https://live.staticflicker.com/7631/26849088292_36fc52ee90_b.jpg',
         password,
-        places
+        places: []
     });
 
     try {
