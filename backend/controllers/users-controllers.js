@@ -49,7 +49,6 @@ const signup = async (req, res, next) => {
         email,
         password,
         image: 'https://live.staticflicker.com/7631/26849088292_36fc52ee90_b.jpg',
-        password,
         places: []
     });
 
