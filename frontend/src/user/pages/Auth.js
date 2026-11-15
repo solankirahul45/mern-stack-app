@@ -79,7 +79,7 @@ const Auth = () => {
   
         const responseData = await response.json();
         if (!response.ok) {
-          throw new Error(responseData.message || 'Signup failed');
+          throw new Error(responseData.message || 'Login failed');
         }
         
         setIsLoading(false);
@@ -92,6 +92,33 @@ const Auth = () => {
       }
     }
     else {
+      try {
+        setError(null);
+        const response = await fetch('http://localhost:5000/api/users/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type':  'application/json'
+          },
+          body: JSON.stringify({
+            name: formState.inputs.name.value,
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value
+          })
+        });
+  
+        const responseData = await response.json();
+        if (!response.ok) {
+          throw new Error(responseData.message || 'Signup failed');
+        }
+        
+        setIsLoading(false);
+        auth.login();
+      }
+      catch (err) {
+        setIsLoading(false);
+        console.log(err);
+        setError(err.message || 'Something went wrong, please try again.')
+      }
     }
 
     setIsLoading(false);
